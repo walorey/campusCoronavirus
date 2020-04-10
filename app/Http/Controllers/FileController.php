@@ -16,7 +16,8 @@ class FileController extends Controller
      */
     public function index()
     {
-        //
+        $archivos = File::orderBy('id', 'DESC')->paginate(20);
+        return view('admin.archivos')->with('archivos', $archivos);
     }
 
     /**
@@ -42,7 +43,7 @@ class FileController extends Controller
         $archivo->ruta = $ruta;
         $archivo->save();
 
-        return asset($archivo->ruta);
+        return redirect()->route('files.index')->with('mensaje', 'Se subió: '.$archivo->name.' correctamente.');
     }
 
     /**
@@ -87,6 +88,10 @@ class FileController extends Controller
      */
     public function destroy(File $file)
     {
-        //
+        $archivo = $file;
+
+        $archivo->delete();
+
+        return redirect()->route('files.index')->with('archivoBorrado', 'Se ha eliminado el archivo "'.$archivo->name.'"');
     }
 }

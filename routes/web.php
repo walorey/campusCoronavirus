@@ -21,6 +21,10 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 Route::group(['prefix'=>'/admin', 'middleware'=>['admin']], function(){
 
+	Route::get('/' , function(){
+		return view('admin.home');
+	})->name('admin.home');
+
 	Route::resource('files', 'FileController');
 
 	Route::get('/subirArchivo', [
