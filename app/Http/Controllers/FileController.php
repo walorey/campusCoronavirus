@@ -14,6 +14,9 @@ class FileController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    //NOTA: COMO CREE EL MODELO, LA MIGRACION Y EL CONTROLADOR JUNTOS, LAS FUNCIONES NO RECIBEN ID SINO EL OBJETO
+
     public function index()
     {
         $archivos = File::orderBy('id', 'DESC')->paginate(20);
@@ -65,7 +68,10 @@ class FileController extends Controller
      */
     public function edit(File $file)
     {
-        //
+        $archivo = $file;
+
+        return view('admin.editarArchivo')->with('archivo', $archivo);
+
     }
 
     /**
@@ -77,7 +83,19 @@ class FileController extends Controller
      */
     public function update(Request $request, File $file)
     {
-        //
+        $archivo = $file;
+
+        $archivo->name = $request->name;
+        $archivo->modulo = $request->modulo;
+        $archivo->descripcion = $request->descripcion;
+        $fileRequest = $request->file('archivo');
+        $ruta = Storage::disk('public')->put('files', $fileRequest);
+        $archivo->ruta = $ruta;
+
+        $archivo->save();
+
+        return redirect()->route('files.index')->with('edicion', 'Se edito con exito: '.$archivo->name);
+
     }
 
     /**
