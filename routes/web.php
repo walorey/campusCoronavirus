@@ -14,3 +14,17 @@
 Route::get('/', function () {
     return view('welcome');
 });
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
+
+Route::group(['prefix'=>'/admin', 'middleware'=>['admin']], function(){
+
+	Route::resource('files', 'FileController');
+
+	Route::get('/subirArchivo', [
+		'uses' => 'FileController@create',
+		'as' => 'subir.archivo'
+	]);
+});
