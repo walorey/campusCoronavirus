@@ -11,8 +11,8 @@
 						    Usuarios
 						  </button>
 						  <div class="dropdown-menu">
-						    <a class="dropdown-item" href="#">Crear usuario</a>
-						    <a class="dropdown-item" href="#">Ver usuarios</a>
+						    <a class="dropdown-item" href="{{route('users.create')}}">Crear usuario</a>
+						    <a class="dropdown-item" href="{{route('users.index')}}">Ver usuarios</a>
 						  </div>
 						</div>
 						<div class="btn-group">

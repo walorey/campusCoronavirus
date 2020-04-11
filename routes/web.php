@@ -25,10 +25,23 @@ Route::group(['prefix'=>'/admin', 'middleware'=>['admin']], function(){
 		return view('admin.home');
 	})->name('admin.home');
 
+	//archivos
+
 	Route::resource('files', 'FileController');
 
 	Route::get('/subirArchivo', [
 		'uses' => 'FileController@create',
 		'as' => 'subir.archivo'
+	]);
+
+	//usuarios
+
+	Route::resource('users', 'UserController');
+
+	//blanquear contraseña
+
+	Route::post('blanquearPassword/{id}', [
+		'uses' => 'UserController@blanquearPassword',
+		'as' => 'blanquear.password'
 	]);
 });

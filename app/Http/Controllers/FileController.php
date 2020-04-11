@@ -41,6 +41,8 @@ class FileController extends Controller
      */
     public function store(FileRequest $request)
     {   $archivo = new File($request->all());
+
+
         $fileRequest = $request->file('archivo');
         $ruta = Storage::disk('public')->put('files', $fileRequest);
         $archivo->ruta = $ruta;
@@ -88,10 +90,12 @@ class FileController extends Controller
         $archivo->name = $request->name;
         $archivo->modulo = $request->modulo;
         $archivo->descripcion = $request->descripcion;
+
+        if($request->hasFile('archivo')){
         $fileRequest = $request->file('archivo');
         $ruta = Storage::disk('public')->put('files', $fileRequest);
         $archivo->ruta = $ruta;
-
+        }
         $archivo->save();
 
         return redirect()->route('files.index')->with('edicion', 'Se edito con exito: '.$archivo->name);
