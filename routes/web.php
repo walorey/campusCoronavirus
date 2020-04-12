@@ -34,6 +34,19 @@ Route::group(['middleware' => ['auth']], function(){
 		'uses' => 'FileController@indexClientes',
 		'as' => 'materialDidactico'
 	]);
+
+	//configuracion
+	Route::resource('configuracion', 'ConfigController');
+
+	Route::post('/cambiarEmail', [
+		'uses' => 'ConfigController@cambiarEmail',
+		'as' => 'cambiar.email.config'
+	]);
+
+	Route::post('modificarPassword', [
+		'uses' => 'ConfigController@cambiarPassword',
+		'as' => 'modificar.password.config'
+	]);
 });
 
 Route::group(['prefix'=>'/admin', 'middleware'=>['admin']], function(){

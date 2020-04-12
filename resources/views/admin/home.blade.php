@@ -25,13 +25,11 @@
 						  </div>
 						</div>
 						<div class="btn-group">
-						  <button class="btn btn-success btn-lg dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-						    Foro
-						  </button>
-						  <div class="dropdown-menu">
-						    <a class="dropdown-item" href="#">Hacer una pregunta</a>
-						    <a class="dropdown-item" href="#">Ver Preguntas</a>
-						  </div>
+							<a href="{{route('foro.index')}}">
+								<button class="btn btn-success btn-lg " type="button" aria-haspopup="true" aria-expanded="false">
+						         Foro
+						  		</button>
+							</a>
 						</div>
 					</div>
 				</div>

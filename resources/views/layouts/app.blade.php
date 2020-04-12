@@ -62,6 +62,7 @@
                                 </a>
 
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                                    <a href="{{route('configuracion.index')}}" class="dropdown-item">Configuración</a>
                                     @if(Auth::user()->type == 'admin')
                                     <a class="dropdown-item" href="{{route('admin.home')}}">Administrar</a>
                                     @endif
