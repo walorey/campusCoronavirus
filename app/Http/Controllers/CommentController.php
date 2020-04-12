@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Comment;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class CommentController extends Controller
 {
@@ -33,9 +34,15 @@ class CommentController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, $id)
     {
-        //
+        $comentario = new Comment($request->all());
+        $comentario->question_id = $id;
+        $comentario->user_id = Auth::user()->id;
+        $comentario->save();
+
+        return redirect()->route('foro.show', $id)->with('mensaje', 'Comentario enviado!');
+
     }
 
     /**

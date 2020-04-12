@@ -23,6 +23,17 @@ Route::group(['middleware' => ['auth']], function(){
 
 	//foro
 	Route::resource('foro', 'QuestionController');
+
+	//mis preguntas
+	Route::get('mis-preguntas', function(){
+		return view('foro.misPreguntas');
+	})->name('misPreguntas');
+
+	//material didactico
+	Route::get('material-didactico', [
+		'uses' => 'FileController@indexClientes',
+		'as' => 'materialDidactico'
+	]);
 });
 
 Route::group(['prefix'=>'/admin', 'middleware'=>['admin']], function(){
@@ -49,6 +60,17 @@ Route::group(['prefix'=>'/admin', 'middleware'=>['admin']], function(){
 	Route::post('blanquearPassword/{id}', [
 		'uses' => 'UserController@blanquearPassword',
 		'as' => 'blanquear.password'
+	]);
+
+	//comentarios
+
+	Route::resource('comentarios', 'CommentController');
+
+	//comentar
+
+	Route::post('comentar/{id}', [
+		'uses' => 'CommentController@store',
+		'as' => 'comentar.store'
 	]);
 
 });

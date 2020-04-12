@@ -52,9 +52,11 @@ class QuestionController extends Controller
      * @param  \App\Question  $question
      * @return \Illuminate\Http\Response
      */
-    public function show(Question $question)
+    public function show($id)
     {
-        //
+        $pregunta = Question::find($id);
+
+        return view('foro.pregunta')->with('pregunta', $pregunta);
     }
 
     /**
@@ -86,8 +88,11 @@ class QuestionController extends Controller
      * @param  \App\Question  $question
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Question $question)
+    public function destroy($id)
     {
-        //
+        $pregunta = Question::find($id);
+        $pregunta->delete();
+
+        return redirect()->route('foro.index')->with('preguntaBorrada', 'Se elimino la pregunta: "'.$pregunta->titulo.'"');
     }
 }

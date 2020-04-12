@@ -14,14 +14,45 @@
 	        </ul>
 	    </div>
 		@endif
+		@if (session('preguntaBorrada'))
+	    <div class="alert alert-danger fade show">
+	    	<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+			    <span aria-hidden="true">&times;</span>
+			</button>
+	        <ul>
+				{{session('preguntaBorrada')}}
+	        </ul>
+	    </div>
+		@endif
+		@if (session('edicion'))
+	    <div class="alert alert-warning fade show">
+	    	<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+			    <span aria-hidden="true">&times;</span>
+			</button>
+	        <ul>
+				{{session('edicion')}}
+	        </ul>
+	    </div>
+		@endif
+		<!-- Image and text -->
+		<nav class="navbar navbar-light bg-success rounded">
+		  <a class="navbar-brand text-light" href="{{route('foro.index')}}">
+		    <img src="{{asset('img/logo.png')}}" width="30" height="30" class="d-inline-block align-top" alt="">
+		    Foro
+		  </a>
+		</nav>
+		<br>
+
 		<div class="row">
 			<div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
 				<div class="card bg-light mb-3" style="max-width: 21rem;">
 				  <div class="card-header text-center">Menú</div>
 				  <div class="card-body">
 					<button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#preguntar">Hacer una pregunta</button>
-						<br>
-					<button type="button" class="btn btn-info btn-block">Mis preguntas</button>
+					<br>
+					<a href="{{route('misPreguntas')}}" class="link-limpio-blanco">
+						<button type="button" class="btn btn-info btn-block">Mis preguntas</button>
+					</a>
 				  </div>
 				</div>
 			</div>
@@ -31,17 +62,61 @@
 						<div class="card text-white bg-info mb-3">
 						  <div class="card-header">
 						  	<span>{{$pregunta->user->name.' '.$pregunta->user->lastname}}</span>
-						  	<span>|</span>
-						  	<span>{{$pregunta->created_at}}</span>
-
+						  	@if(Auth::user()->type == 'admin' || Auth::user()->id == $pregunta->user->id)
+						  		<span class="float-right">
+							  	  <div class="dropdown no-arrow">
+				                    <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+				                      <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+				                    </a>
+				                    <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
+				                      @if(Auth::user()->id == $pregunta->user->id)
+				                      <a class="dropdown-item text-center" href="{{route('foro.edit', $pregunta->id)}}">Editar</a>
+				                      <div class="dropdown-divider"></div>
+				                      @endif
+				                      <a class="dropdown-item text-center" type="button" data-toggle="modal" data-target="#modalBorrar{{$pregunta->id}}">Eliminar</a>
+				                    </div>
+				                  </div>
+							  	</span>
+						  	@endif
+						  	<span class="float-right">
+						  		{{$pregunta->created_at}}
+						  	</span>
 						  </div>
 						  <div class="card-body">
 						    <h5 class="card-title">{{$pregunta->titulo}}</h5>
 						 </div>
 						 <div class="card-footer">
-						 	<a href="{{route('foro.show', $pregunta)}}" class="link-limpio-blanco">Ver</a>
+						 	<a href="{{route('foro.show', $pregunta->id)}}" class="link-limpio-blanco">Ver</a>
 						 </div>
+						</div>
+
+
+
+												<!-- Modal borrar -->
+						<div class="modal fade" id="modalBorrar{{$pregunta->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+						  <div class="modal-dialog" role="document">
+						    <div class="modal-content">
+						      <div class="modal-header">
+						        <h5 class="modal-title" id="exampleModalLabel">¿Borrar pregunta?</h5>
+						        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						          <span aria-hidden="true">&times;</span>
+						        </button>
+						      </div>
+						      <div class="modal-footer">
+						      	<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+						      	<form class="d-inline" method="post" action="{{route('foro.destroy', $pregunta->id)}}">
+									@method('DELETE')
+									@csrf
+									<button type="submit" class="btn btn-danger">Borrar</button>
+								</form>
+
+
+						      </div>
+						    </div>
+						  </div>
+						</div>
 					@endforeach
+					<br>
 				@else
 					<h3>Aún no hay preguntas, si tienes dudas puedes hacer una!</h3>
 				@endif

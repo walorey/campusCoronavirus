@@ -8,16 +8,17 @@
                 <div class="card-header">Bienvenido!</div>
 
                 <div class="card-body">
-                    @if (session('status'))
-                        <div class="alert alert-success" role="alert">
-                            {{ session('status') }}
-                        </div>
-                    @endif
-
                     <div class="btn-group">
                         <a href="{{route('foro.index')}}">
                             <button class="btn btn-success btn-lg" type="button">
                                 Foro
+                            </button>
+                        </a>
+                    </div>
+                                        <div class="btn-group">
+                        <a href="{{route('materialDidactico')}}">
+                            <button class="btn btn-dark btn-lg" type="button">
+                                Material didáctico
                             </button>
                         </a>
                     </div>

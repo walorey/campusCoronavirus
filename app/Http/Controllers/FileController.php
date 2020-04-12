@@ -23,6 +23,13 @@ class FileController extends Controller
         return view('admin.archivos')->with('archivos', $archivos);
     }
 
+
+    public function indexClientes()
+    {
+        $archivos = File::all();
+        return view('material')->with('archivos', $archivos);
+    }
+
     /**
      * Show the form for creating a new resource.
      *
