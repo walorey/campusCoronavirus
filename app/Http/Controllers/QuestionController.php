@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Question;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class QuestionController extends Controller
 {
@@ -14,7 +15,9 @@ class QuestionController extends Controller
      */
     public function index()
     {
-        //
+        $preguntas = Question::orderBy('id', 'DESC')->paginate(10);
+
+        return view('foro.home')->with('preguntas', $preguntas);
     }
 
     /**
@@ -35,7 +38,12 @@ class QuestionController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $pregunta = new Question($request->all());
+        $usuario = Auth::user();
+        $pregunta->user_id = $usuario->id;
+        $pregunta->save();
+
+        return redirect()->route('foro.index')->with('mensaje', 'Se publicó con éxito tu pregunta!');
     }
 
     /**

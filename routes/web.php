@@ -19,6 +19,12 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
+Route::group(['middleware' => ['auth']], function(){
+
+	//foro
+	Route::resource('foro', 'QuestionController');
+});
+
 Route::group(['prefix'=>'/admin', 'middleware'=>['admin']], function(){
 
 	Route::get('/' , function(){
@@ -44,4 +50,5 @@ Route::group(['prefix'=>'/admin', 'middleware'=>['admin']], function(){
 		'uses' => 'UserController@blanquearPassword',
 		'as' => 'blanquear.password'
 	]);
+
 });
