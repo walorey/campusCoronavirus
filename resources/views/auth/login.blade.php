@@ -58,9 +58,7 @@
                                 </button>
 
                                 @if (Route::has('password.request'))
-                                    <a class="btn btn-link" href="{{ route('password.request') }}">
-                                        {{ __('Forgot Your Password?') }}
-                                    </a>
+                                    Si olvido su contraseña comuniquese con Alimentaria.edu@gmail.com
                                 @endif
                             </div>
                         </div>

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Requests\CambiarEmailRequest;
 use Validator;
 use app\User;
 
@@ -85,7 +86,7 @@ class ConfigController extends Controller
         //
     }
 
-    public function cambiarEmail(Request $request)
+    public function cambiarEmail(CambiarEmailRequest $request)
     {
         $usuario = Auth::user();
         $usuario->email = $request->email;
