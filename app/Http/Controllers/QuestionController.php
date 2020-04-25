@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Question;
+use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Notifications\nuevaPregunta;
 
 class QuestionController extends Controller
 {
@@ -38,10 +40,16 @@ class QuestionController extends Controller
      */
     public function store(Request $request)
     {
+        // $users y $user es para notificar, no confundir con el usuario que pregunta
+        $users = User::where('type', '=', 'admin')->get();
         $pregunta = new Question($request->all());
         $usuario = Auth::user();
         $pregunta->user_id = $usuario->id;
         $pregunta->save();
+
+        foreach ($users as $user) {
+            $user->notify(new nuevaPregunta($usuario, $pregunta));
+        }
 
         return redirect()->route('foro.index')->with('mensaje', 'Se publicó con éxito tu pregunta!');
     }

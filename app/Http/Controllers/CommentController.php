@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Comment;
+use App\Question;
+use App\Notifications\nuevaRespuesta;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -39,7 +41,11 @@ class CommentController extends Controller
         $comentario = new Comment($request->all());
         $comentario->question_id = $id;
         $comentario->user_id = Auth::user()->id;
+        $pregunta = Question::find($id);
+        $usuario = $pregunta->user;
         $comentario->save();
+        $usuario->notify(new nuevaRespuesta($pregunta, $comentario));
+
 
         return redirect()->route('foro.show', $id)->with('mensaje', 'Comentario enviado!');
 
